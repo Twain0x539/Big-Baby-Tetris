@@ -16,17 +16,21 @@ class Shape
 {
 private: 
 	int type;
-
+	void setAln(int x1, int y1, int x2, int y2, int x3, int y3);
 	Shape(int type);
 
 	int x, y; // Center piece pos
 
-/*		Additional pieces positions, changing only by rotate() function, shows position relative to the center pos		*/
+	int Alnx1, Alny1;
+	int Alnx2, Alny2;
+	int Alnx3, Alny3;
+
 	int x1, y1; 
 	int x2, y2;
 	int x3, y3;
 
 public:
 	void rotate();
+	void setPos(int x, int y);
 };
 
