@@ -17,15 +17,11 @@ class Shape
 private: 
 	int type;
 
-	Shape(int type) {
-		this->type = type;
-		switch (type) {
-		}
-	}
+	Shape(int type);
 
 	int x, y; // Center piece pos
 
-/*		Additional pieces positions, changing only by rotate() function		*/
+/*		Additional pieces positions, changing only by rotate() function, shows position relative to the center pos		*/
 	int x1, y1; 
 	int x2, y2;
 	int x3, y3;
