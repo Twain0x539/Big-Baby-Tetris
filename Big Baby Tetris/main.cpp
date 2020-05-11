@@ -11,9 +11,9 @@ int main() {
 		// game.getInput();
 		game.doLogic();
 		// game.render();
-		for (int i = 0; i < FieldCols; i++) {
-			for (int j = 0; j < FieldRows; j++) {
-				cout << p_Field[FieldRows * i + j];
+		for (int i = 0; i < FieldRows; i++) {
+			for (int j = 0; j < FieldCols; j++) {
+				cout << p_Field[FieldCols * i + j];
 			}
 			cout << endl;
 		}

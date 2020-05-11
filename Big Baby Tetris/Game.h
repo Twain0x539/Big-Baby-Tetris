@@ -4,12 +4,20 @@ class Game
 {
 private:
 	bool initialized = 0;
-	static const int FieldCols = 15;
-	static const int FieldRows = 10;
+	static const int FieldCols = 10;
+	static const int FieldRows = 15;
 	static const int FieldSize = FieldCols * FieldRows;
 	int Field[FieldSize];
 	int UserInput;
 	Shape* shape;
+
+//*********************_____________SDL_SECTION_____________*********************//
+
+
+
+
+
+//*******************************************************************************//
 public: 
 	bool isNotOver = 1;
 	static Game& get_instance() {

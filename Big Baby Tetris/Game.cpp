@@ -12,10 +12,10 @@ UserInput = input;
 void Game::doLogic() {
 	if (initialized) {
 		if (!shape->inControl) {
-			shape->generateNew(getRandomNumber(0, 7));
+			shape->generateNew(getRandomNumber(1, 7));
 			shape->inControl = true;
 		}
-		shape->setPos(2, 2);
+		shape->setPos(5, 5);
 	}
 }
 
@@ -37,6 +37,6 @@ int* Game::getField_ptr() {
 
 int Game::getRandomNumber(int min, int max) {
 	std::srand(time(NULL));
-	int randomNumber = rand() % (max+1) + min;
+	int randomNumber = (rand() % (max - min)) + min;
 	return randomNumber;
 }
