@@ -9,15 +9,27 @@ int input = 0;
 UserInput = input;
 }
 
-void Game::DoLogic() {
-	
-
+void Game::doLogic() {
+	if (initialized) {
+		if (!shape->inControl) {
+			shape->generateNew(getRandomNumber(0, 7));
+			shape->inControl = true;
+		}
+		shape->setPos(6, 6);
+		Field[shape->getX() * FieldRows + shape->getY()] = shape->type;
+	}
 }
 
 void Game::INITIALIZE() {
-	for (int i = 0; i < FieldSize; i++) {
-		Field[i] = 0;
+	if (!initialized) {
+		for (int i = 0; i < FieldSize; i++) {
+			Field[i] = 0;
+		}
+		if (!shape) {
+			shape = new Shape(FieldCols,FieldRows);
+		}
 	}
+	initialized = 1;
 }
 
 int* Game::getField_ptr() {

@@ -14,10 +14,11 @@
 
 class Shape
 {
-private: 
-	int type;
+private:
+	int FieldCols;
+	int FieldRows;
+	int* Field;
 	void setAln(int x1, int y1, int x2, int y2, int x3, int y3);
-	Shape(int type);
 
 	int x, y; // Center piece pos
 
@@ -30,7 +31,17 @@ private:
 	int x3, y3;
 
 public:
+	int type;
+	bool inControl = 0;
+	Shape(int FieldCols, int FieldRows, int* p_Field);
 	void rotate();
+	int getX() {
+		return x;
+	}
+	int getY() {
+		return y;
+	}
+	void generateNew(int type);
 	void setPos(int x, int y);
 };
 

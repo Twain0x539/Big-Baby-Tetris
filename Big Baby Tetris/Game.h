@@ -1,32 +1,36 @@
 #pragma once
+#include "Shape.h"
 class Game
 {
 private:
-	static const int FieldX = 15;
-	static const int FieldY = 10;
-	static const int FieldSize = FieldX * FieldY;
-	bool pieceHolds = 0;
+	bool initialized = 0;
+	static const int FieldCols = 15;
+	static const int FieldRows = 10;
+	static const int FieldSize = FieldCols * FieldRows;
 	int Field[FieldSize];
 	int UserInput;
+	Shape* shape;
 public: 
+	bool isNotOver = 1;
 	static Game& get_instance() {
 		static Game instance;
 		return instance;
 	}
+
 	int* getField_ptr();
 	int getFieldSize() {
 		return FieldSize;
 	}
-	int getFieldX() {
-		return FieldX;
+	int getFieldCols() {
+		return FieldCols;
 	}
-	int getFieldY() {
-		return FieldY;
+	int getFieldRows() {
+		return FieldRows;
 	}
-	void INITIALIZE();
-	void getUserInput();
-	void DoLogic();
+	void INITIALIZE(); // initialises everything, needs to run before doing anything with game
+	void getUserInput(); // gets keyboard input and saves in UserInput
+	void doLogic(); // doing game logic using userInput value
 
-	int getRandomNumber(int min, int max);
+	int getRandomNumber(int min, int max); // return random integer value in range min...max
 };
 

@@ -3,19 +3,20 @@ using namespace std;
 #include "Game.h"
 int main() {
 	Game& game = Game::get_instance();
-/* while(game.IsNotOver){
-		 game.getInput();
-		 game.doLogic();
-		 game.render();
-*/ 
+	game.INITIALIZE();
 	int* p_Field = game.getField_ptr();
-	int FieldX = game.getFieldX();
-	int FieldY = game.getFieldY();
-	for (int i = 0; i < FieldY; i++) {
-		for (int j = 0; j < FieldX; j++) {
-			cout << p_Field[j * FieldY + FieldX];
+	int FieldCols = game.getFieldCols();
+	int FieldRows = game.getFieldRows();
+	while (game.isNotOver) {
+		// game.getInput();
+		game.doLogic();
+		// game.render();
+		for (int i = 0; i < FieldRows; i++) {
+			for (int j = 0; j < FieldCols; j++) {
+				cout << p_Field[j * FieldRows + FieldCols];
+			}
+			cout << endl;
 		}
-		cout << endl;
 	}
 	return 0;
 }
