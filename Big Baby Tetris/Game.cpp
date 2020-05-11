@@ -15,8 +15,7 @@ void Game::doLogic() {
 			shape->generateNew(getRandomNumber(0, 7));
 			shape->inControl = true;
 		}
-		shape->setPos(6, 6);
-		Field[shape->getX() * FieldRows + shape->getY()] = shape->type;
+		shape->setPos(2, 2);
 	}
 }
 
@@ -26,7 +25,7 @@ void Game::INITIALIZE() {
 			Field[i] = 0;
 		}
 		if (!shape) {
-			shape = new Shape(FieldCols,FieldRows);
+			shape = new Shape(FieldCols,FieldRows,Field);
 		}
 	}
 	initialized = 1;

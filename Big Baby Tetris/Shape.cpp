@@ -11,17 +11,17 @@
 
 void Shape::generateNew(int type) {
 	inControl = 1;
-	x = 7;
-	y = 7;
+	x = 0;
+	y = 0;
 	this->type = type;
 	switch (type) {
 	case 1: setAln(1, 1, 1, 0, 0, 1); break;
-	case 2: setAln(0, 1, 0, -1, 0, 2);  break;
-	case 3: setAln(1, 1, 1, 0, 0, 1); break;
-	case 4: setAln(1, 1, 1, 0, 0, 1); break;
-	case 5: setAln(1, 1, 1, 0, 0, 1); break;
-	case 6: setAln(1, 1, 1, 0, 0, 1); break;
-	case 7: setAln(1, 1, 1, 0, 0, 1); break;
+	case 2: setAln(0, -1, 0, 1, 0, 2);  break;
+	case 3: setAln(1, 0, -1, 0, 0, 1); break;
+	case 4: setAln(-1, 0, 0, 1, 0, 2); break;
+	case 5: setAln(1, 0, 0, 1, 0, 2); break;
+	case 6: setAln(-1, 0, 0, 1, 1, 1); break;
+	case 7: setAln(-1, -1, 0, -1, 1, 0); break;
 	}
 }
 
@@ -39,14 +39,29 @@ void Shape::setAln(int x1, int y1, int x2, int y2, int x3, int y3) {
 }
 
 void Shape::setPos(int x, int y) {
-	this->x = x;
-	this->y = y;
+	
+	if (x >= FieldCols) {
+		this->x = 0;
+	}
+	else {
+		this->x = x;
+	}
+	if (y >= FieldRows) {
+		this->y = 0;
+	}
+	else {
+		this->y = y;
+	}
 	this->x1 = x + Alnx1;
 	this->x2 = x + Alnx2;
 	this->x3 = x + Alnx3;
-	this->y1 = x + Alny1;
-	this->y2 = x + Alny2;
-	this->y3 = x + Alny3;
+	this->y1 = y + Alny1;
+	this->y2 = y + Alny2;
+	this->y3 = y + Alny3;
+	Field[FieldRows * this->y + this->x] = type;
+	Field[FieldRows * y1 + x1] = type;
+	Field[FieldRows * y2 + x2] = type;
+	Field[FieldRows * y3 + x3] = type;
 }
 
 Shape::Shape(int FieldCols, int FieldRows, int* p_Field) {
@@ -55,5 +70,5 @@ Shape::Shape(int FieldCols, int FieldRows, int* p_Field) {
 	y = 0;
 	this->FieldCols = FieldCols;
 	this->FieldRows = FieldRows;
-	this->Field = Field;
+	this->Field = p_Field;
 }
