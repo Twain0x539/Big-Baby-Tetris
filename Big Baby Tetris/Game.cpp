@@ -10,13 +10,23 @@ UserInput = input;
 }
 
 void Game::doLogic() {
+	static int i = 1;
 	if (initialized) {
 		if (!shape->inControl) {
 			shape->generateNew(getRandomNumber(1, 7));
 			shape->inControl = true;
 		}
-		shape->setPos(5, 5);
+		if (!shape->CollideBot()) {
+			shape->removeOldPos();
+			shape->setPos(5, i);
+		}
+		else {
+			shape->Fix();
+			shape->inControl = 0;
+			i = 1;
+		}
 	}
+	i++;
 }
 
 void Game::INITIALIZE() {

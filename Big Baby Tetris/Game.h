@@ -5,7 +5,7 @@ class Game
 private:
 	bool initialized = 0;
 	static const int FieldCols = 10;
-	static const int FieldRows = 15;
+	static const int FieldRows = 17;
 	static const int FieldSize = FieldCols * FieldRows;
 	int Field[FieldSize];
 	int UserInput;

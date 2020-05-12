@@ -43,5 +43,8 @@ public:
 	}
 	void generateNew(int type);
 	void setPos(int x, int y);
+	bool CollideBot();
+	void Fix();
+	void removeOldPos();
 };
 
