@@ -86,6 +86,18 @@ bool Shape::CollideBot() {
 	if ((y+1) == FieldRows || (y1+1) == FieldRows || (y2+1) == FieldRows || (y3+1) == FieldRows) {
 		Collide = 1;
 	}
+	if (Field[FieldCols * (y + 1) + x] != 0 && Field[FieldCols * (y + 1) + x] != 9) {
+		Collide = 1;
+	}
+	if (Field[FieldCols * (y1 + 1) + x1] != 0 && Field[FieldCols * (y1 + 1) + x1] != 9) {
+		Collide = 1;
+	}
+	if (Field[FieldCols * (y2 + 1) + x2] != 0 && Field[FieldCols * (y2 + 1) + x2] != 9) {
+		Collide = 1;
+	}
+	if (Field[FieldCols * (y3 + 1) + x3] != 0 && Field[FieldCols * (y3 + 1) + x3] != 9) {
+		Collide = 1;
+	}
 	return Collide;
 }
 
