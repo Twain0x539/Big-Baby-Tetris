@@ -1,5 +1,6 @@
 #pragma once
 #include "Shape.h"
+#include "SDL.h"
 class Game
 {
 private:
@@ -12,8 +13,9 @@ private:
 	Shape* shape;
 
 //*********************_____________SDL_SECTION_____________*********************//
-
-
+	SDL_Window* window;
+	SDL_Renderer* renderer;
+	SDL_Event event;
 
 
 
@@ -38,7 +40,10 @@ public:
 	void INITIALIZE(); // initialises everything, needs to run before doing anything with game
 	void getUserInput(); // gets keyboard input and saves in UserInput
 	void doLogic(); // doing game logic using userInput value
+	void removeFullRows(); // removes filled rows
 
-	int getRandomNumber(int min, int max); // return random integer value in range min...max
+	int getRandomNumber(int min, int max);
+
+	~Game();
 };
 

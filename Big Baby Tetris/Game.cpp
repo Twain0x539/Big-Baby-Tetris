@@ -1,16 +1,18 @@
 #include "Game.h"
 #include <ctime>
 #include "Shape.h"
-#include <SDL.h>
+#include "SDL.h"
 #include <cstdlib>
 
 void Game::getUserInput(){
-int input = 0;
-UserInput = input;
-}
+	SDL_PollEvent(&event);
+	if (event.type == SDL_KEYDOWN) {
+		UserInput = event.key.keysym.sym;
+		}
+	}
 
 void Game::doLogic() {
-	static int i = 1;
+	static int controlledY = 1;
 	if (initialized) {
 		if (!shape->inControl) {
 			shape->generateNew(getRandomNumber(1, 7));
@@ -18,15 +20,16 @@ void Game::doLogic() {
 		}
 		if (!shape->CollideBot()) {
 			shape->removeOldPos();
-			shape->setPos(5, i);
+			shape->setPos(5, controlledY);
 		}
 		else {
 			shape->Fix();
 			shape->inControl = 0;
-			i = 1;
+			controlledY = 1;
 		}
 	}
-	i++;
+	controlledY++;
+	SDL_Delay(100);
 }
 
 void Game::INITIALIZE() {
@@ -37,6 +40,15 @@ void Game::INITIALIZE() {
 		if (!shape) {
 			shape = new Shape(FieldCols,FieldRows,Field);
 		}
+
+
+		/*--------------------------SDL-----------------------*/
+
+		SDL_Init(SDL_INIT_EVERYTHING);
+		window = SDL_CreateWindow("Big Baby Tetris", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 600, 400, SDL_WINDOW_SHOWN);
+		renderer = SDL_CreateRenderer(window, -1, 0);
+
+		/*--------------------------SDL-----------------------*/
 	}
 	initialized = 1;
 }
@@ -49,4 +61,13 @@ int Game::getRandomNumber(int min, int max) {
 	std::srand(time(NULL));
 	int randomNumber = (rand() % (max - min)) + min;
 	return randomNumber;
+}
+
+void Game::removeFullRows() {
+	
+}
+
+Game::~Game() { 
+	SDL_DestroyWindow(window);
+	SDL_DestroyRenderer(renderer);
 }

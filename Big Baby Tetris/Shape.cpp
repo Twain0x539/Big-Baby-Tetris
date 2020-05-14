@@ -75,6 +75,12 @@ Shape::Shape(int FieldCols, int FieldRows, int* p_Field) {
 	inControl = 0;
 	x = 0;
 	y = 0;
+	x1 = 0;
+	x2 = 0;
+	x3 = 0;
+	y1 = 0;
+	y2 = 0;
+	y3 = 0;
 	this->FieldCols = FieldCols;
 	this->FieldRows = FieldRows;
 	this->Field = p_Field;
@@ -106,6 +112,7 @@ void Shape::Fix() {
 	Field[FieldCols * y1 + x1] = type;
 	Field[FieldCols * y2 + x2] = type;
 	Field[FieldCols * y3 + x3] = type;
+
 	x = 0;
 	x = 0;
 	x1 = 0;

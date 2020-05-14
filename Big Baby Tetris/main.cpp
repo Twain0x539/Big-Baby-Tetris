@@ -1,7 +1,7 @@
 #include <iostream>   // for temp output
 using namespace std;
 #include "Game.h"
-int main() {
+int main(int argc, char* argv[]) {
 	Game& game = Game::get_instance();
 	game.INITIALIZE();
 	int* p_Field = game.getField_ptr();
@@ -18,6 +18,7 @@ int main() {
 			cout << endl;
 		}
 		cout << endl;
+		system("CLS");
 	}
 	return 0;
 }
