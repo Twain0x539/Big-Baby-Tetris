@@ -101,13 +101,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>E:\My projects\Big-Baby-Tetris\Big Baby Tetris\SDL2-2.0.12\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>E:\My projects\Big-Baby-Tetris\Big Baby Tetris\SDL2-2.0.12\include;E:\My projects\Big-Baby-Tetris\Big Baby Tetris\SDL2_image-2.0.5\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>E:\My projects\Big-Baby-Tetris\Big Baby Tetris\SDL2-2.0.12\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2test.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>E:\My projects\Big-Baby-Tetris\Big Baby Tetris\SDL2-2.0.12\lib\x64;E:\My projects\Big-Baby-Tetris\Big Baby Tetris\SDL2_image-2.0.5\lib\x64;E:\My projects\Big-Baby-Tetris\Big Baby Tetris\SDL2_image-2.0.5\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2test.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -150,6 +150,9 @@
   <ItemGroup>
     <ClInclude Include="Game.h" />
     <ClInclude Include="Shape.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Assets\block_red.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

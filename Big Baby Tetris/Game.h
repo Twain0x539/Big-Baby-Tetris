@@ -1,6 +1,7 @@
 #pragma once
 #include "Shape.h"
 #include "SDL.h"
+#include "SDL_image.h"
 class Game
 {
 private:
@@ -16,9 +17,9 @@ private:
 	SDL_Window* window;
 	SDL_Renderer* renderer;
 	SDL_Event event;
+	SDL_Texture* blocks[8];
 
-
-
+	void LoadTextures();
 //*******************************************************************************//
 public: 
 	bool isNotOver = 1;
@@ -26,23 +27,13 @@ public:
 		static Game instance;
 		return instance;
 	}
-
-	int* getField_ptr();
-	int getFieldSize() {
-		return FieldSize;
-	}
-	int getFieldCols() {
-		return FieldCols;
-	}
-	int getFieldRows() {
-		return FieldRows;
-	}
 	void INITIALIZE(); // initialises everything, needs to run before doing anything with game
-	void getUserInput(); // gets keyboard input and saves in UserInput
+	void getInput(); // gets keyboard input and saves in UserInput
 	void doLogic(); // doing game logic using userInput value
 	void removeFullRows(); // removes filled rows
 
 	int getRandomNumber(int min, int max);
+	void render();
 
 	~Game();
 };

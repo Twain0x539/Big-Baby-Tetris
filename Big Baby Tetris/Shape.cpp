@@ -1,7 +1,7 @@
 #include "Shape.h"
 /*
-	O = 0;
-	I = 1;
+	O = 1;
+	I = 2;
 	T = 3;
 	J = 4;
 	L = 5;
