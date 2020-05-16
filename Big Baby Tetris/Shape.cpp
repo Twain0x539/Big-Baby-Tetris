@@ -22,6 +22,7 @@ void Shape::generateNew(int type) {
 	case 7: setAln(-1,1,0,1,1,0); break;
 	}
 	setPos(5, 1);
+	inControl = true;
 }
 
 void Shape::rotate() {
@@ -44,7 +45,7 @@ void Shape::removeOldPos() {
 	Field[FieldCols * y3 + x3] = 0;
 }
 void Shape::setPos(int x, int y) {
-	
+	removeOldPos();
 	if (x >= FieldCols) {
 		this->x = 1;
 	}

@@ -14,21 +14,30 @@ void Game::getInput(){
 
 void Game::doLogic() {
 	static int controlledY = 1;
+	static int controlledX = 5;
 	if (initialized) {
+
+		switch (UserInput) {
+		case SDLK_a: controlledX--; break;
+		case SDLK_d: controlledX++; break;
+		}
 		if (!shape->inControl) {
 			shape->generateNew(getRandomNumber(1, 7));
-			shape->inControl = true;
 		}
 		if (!shape->CollideBot()) {
-			shape->removeOldPos();
-			shape->setPos(5, controlledY);
+			shape->setPos(controlledX, controlledY);
 		}
 		else {
 			shape->Fix();
 			shape->inControl = 0;
 			controlledY = 1;
+			controlledX = 5;
 		}
+
+
+
 	}
+	UserInput = 0;
 	controlledY++;
 	SDL_Delay(100);
 }
