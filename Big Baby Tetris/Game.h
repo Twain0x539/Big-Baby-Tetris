@@ -13,7 +13,7 @@ private:
 	int Field[FieldSize];
 	int UserInput;
 	bool Alive = 1;
-	bool InputCaptured = 0;
+	bool SkipDelay = 0;
 	Shape* shape;
 	Timer* timer;
 

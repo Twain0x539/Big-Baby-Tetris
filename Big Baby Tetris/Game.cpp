@@ -12,12 +12,7 @@ int Game::getInput(){
 	SDL_Event event;
 	SDL_PollEvent(&event);
 	if (event.type == SDL_KEYDOWN) {
-		switch (event.key.keysym.sym) {
-		case SDLK_a: InputCaptured = 1; return SDLK_a; break;
-		case SDLK_d: InputCaptured = 1; return SDLK_d; break;
-		case SDLK_s: InputCaptured = 1; return SDLK_s; break;
-		case SDLK_r: InputCaptured = 1; return SDLK_r; break;
-		}
+		return event.key.keysym.sym;
 	}
 	return -1;
 	}
@@ -27,9 +22,7 @@ void Game::doLogic() {
 	static int controlledX = 5;
 	if (initialized && Alive) {
 
-		if (!InputCaptured) {
 			UserInput = getInput();
-		}
 			if (!shape->inControl) {
 				Alive = shape->generateNew(getRandomNumber(1, 7));
 			}
@@ -39,26 +32,26 @@ void Game::doLogic() {
 					controlledX--;
 				}
 				shape->setPos(controlledX, controlledY);
-				InputCaptured = 0;
 				break;
 			case SDLK_d:
 				if (!shape->CollideSide(RIGHT)) {
 					controlledX++;
 				}
 				shape->setPos(controlledX, controlledY);
-				InputCaptured = 0;
 				break;
 			case SDLK_s:
-				InputCaptured = 0;
+				SkipDelay = 1;
 				break;
 			case SDLK_r:
-				InputCaptured = 0;
+				break;
+			case SDLK_SPACE:
 				break;
 			case -1:
 				UserInput = 0; break;
 			}
 
-		if (timer->TimeElapsed()) {
+		if (timer->TimeElapsed() || SkipDelay) {
+			SkipDelay = 0;
 				controlledY++;
 				if (!shape->CollideBot()) {
 					shape->setPos(controlledX, controlledY);
