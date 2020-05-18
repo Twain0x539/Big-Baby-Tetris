@@ -2,6 +2,7 @@
 #include "Shape.h"
 #include "SDL.h"
 #include "SDL_image.h"
+#include "Timer.h"
 class Game
 {
 private:
@@ -12,11 +13,11 @@ private:
 	int Field[FieldSize];
 	int UserInput;
 	Shape* shape;
+	Timer* timer;
 
 //*********************_____________SDL_SECTION_____________*********************//
 	SDL_Window* window;
 	SDL_Renderer* renderer;
-	SDL_Event event;
 	SDL_Texture* blocks[8];
 
 	void LoadTextures();

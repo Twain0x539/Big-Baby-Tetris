@@ -4,12 +4,20 @@
 #include "SDL.h"
 #include <string>
 #include <cstdlib>
+#include "Timer.h"
+extern enum Sides;
+
 
 void Game::getInput(){
+	SDL_Event event;
+	int Input = -1;
 	SDL_PollEvent(&event);
 	if (event.type == SDL_KEYDOWN) {
-		UserInput = event.key.keysym.sym;
+		switch (event.key.keysym.sym) {
+		case SDLK_a: UserInput = SDLK_a; break;
+		case SDLK_d: UserInput = SDLK_d; break;
 		}
+	}
 	}
 
 void Game::doLogic() {
@@ -17,29 +25,50 @@ void Game::doLogic() {
 	static int controlledX = 5;
 	if (initialized) {
 
-		switch (UserInput) {
-		case SDLK_a: controlledX--; break;
-		case SDLK_d: controlledX++; break;
-		}
-		if (!shape->inControl) {
-			shape->generateNew(getRandomNumber(1, 7));
-		}
-		if (!shape->CollideBot()) {
-			shape->setPos(controlledX, controlledY);
-		}
-		else {
-			shape->Fix();
-			shape->inControl = 0;
-			controlledY = 1;
-			controlledX = 5;
-		}
+			getInput();
+
+		if (timer->TimeElapsed()) {
+			if (!shape->inControl) {
+				shape->generateNew(getRandomNumber(1, 7));
+			}
+
+			switch (UserInput) {
+			case SDLK_a: 
+				if (!shape->CollideSide(LEFT)) {
+					controlledX--;
+				}
+				shape->setPos(controlledX, controlledY);
+				break;
+			case SDLK_d:
+				if (!shape->CollideSide(RIGHT)) {
+					controlledX++;
+				}
+				shape->setPos(controlledX, controlledY);
+				break;
+			case -1:
+				UserInput = 0; break;
+			}
+			
 
 
+			if (true) {
+				if (!shape->CollideBot()) {
+					shape->setPos(controlledX, controlledY);
+				}
+				else {
+					shape->Fix();
+					shape->inControl = 0;
+					controlledY = 1;
+					controlledX = 5;
+				}
+				controlledY++;
+			}
+			UserInput = 0;
 
+
+		}
+		SDL_Delay(100);
 	}
-	UserInput = 0;
-	controlledY++;
-	SDL_Delay(100);
 }
 
 void Game::INITIALIZE() {
@@ -49,6 +78,9 @@ void Game::INITIALIZE() {
 		}
 		if (!shape) {
 			shape = new Shape(FieldCols,FieldRows,Field);
+		}
+		if (!timer) {
+			timer = new Timer();
 		}
 
 
@@ -71,7 +103,10 @@ int Game::getRandomNumber(int min, int max) {
 }
 
 void Game::removeFullRows() {
-	
+	bool FieldCleared = 0;
+	while (!FieldCleared) {
+
+	}
 }
 
 Game::~Game() { 

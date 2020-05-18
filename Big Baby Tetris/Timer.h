@@ -2,12 +2,10 @@
 #include <SDL.h>
 class Timer
 {
-	int frameDelay;
-	int FPS;
-	Uint32 lastTickTime = SDL_GetTicks();
+	Uint32 lastTickTime;
+	Uint32 Delay = 300;
 public:
-	Timer(int FPS);
+	Timer();
 	bool TimeElapsed();
 
 };
-

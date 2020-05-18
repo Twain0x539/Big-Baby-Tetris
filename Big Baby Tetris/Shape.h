@@ -1,5 +1,8 @@
 #pragma once
-
+enum Sides {
+	LEFT,
+	RIGHT
+};
 /*
 	O = 0;
 	I = 1;
@@ -44,6 +47,7 @@ public:
 	void generateNew(int type);
 	void setPos(int x, int y);
 	bool CollideBot();
+	bool CollideSide(Sides side);
 	void Fix();
 	void removeOldPos();
 };

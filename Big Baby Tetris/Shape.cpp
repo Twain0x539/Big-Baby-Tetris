@@ -46,20 +46,8 @@ void Shape::removeOldPos() {
 }
 void Shape::setPos(int x, int y) {
 	removeOldPos();
-	if (x >= FieldCols) {
-		this->x = 1;
-	}
-	else {
-		this->x = x;
-	}
-	if (x < 1) { x = 1; }
-	if (y < 1) { y = 1; }
-	if (y >= FieldRows) {
-		this->y = 1;
-	}
-	else {
-		this->y = y;
-	}
+	this->x = x;
+	this->y = y;
 	this->x1 = x + Alnx1;
 	this->x2 = x + Alnx2;
 	this->x3 = x + Alnx3;
@@ -115,11 +103,52 @@ void Shape::Fix() {
 	Field[FieldCols * y3 + x3] = type;
 
 	x = 0;
-	x = 0;
+	y = 0;
 	x1 = 0;
 	x2 = 0;
 	x3 = 0;
 	y1 = 0;
 	y2 = 0;
 	y3 = 0;
+}
+
+bool Shape::CollideSide(Sides side) {
+	bool Collide = 0;
+	switch (side) {
+	case LEFT:
+		if (x - 1 < 0 || x1 - 1 < 0 || x2 - 1 < 0 || x3 - 1 < 0) {
+			Collide = 1;;
+		}
+		if (Field[FieldCols * y + (x-1)] != 0 && Field[FieldCols * y + (x - 1)] != 9) {
+			Collide = 1;
+		}
+		if (Field[FieldCols * y1 + (x1 - 1)] != 0 && Field[FieldCols * y1 + (x1 - 1)] != 9) {
+			Collide = 1;
+		}
+		if (Field[FieldCols * y2 + (x2 - 1)] != 0 && Field[FieldCols * y2 + (x2 - 1)] != 9) {
+			Collide = 1;
+		}
+		if (Field[FieldCols * y3 + (x3 - 1)] != 0 && Field[FieldCols * y3 + (x3 - 1)] != 9) {
+			Collide = 1;
+		}
+		break;
+	case RIGHT:
+		if (x + 1 >= FieldCols || x1 + 1 >= FieldCols || x2 + 1 >= FieldCols || x3 + 1 >= FieldCols) {
+			Collide = 1;
+		}
+		if (Field[FieldCols * y + (x + 1)] != 0 && Field[FieldCols * y + (x + 1)] != 9) {
+			Collide = 1;
+		}
+		if (Field[FieldCols * y1 + (x1 + 1)] != 0 && Field[FieldCols * y1 + (x1 + 1)] != 9) {
+			Collide = 1;
+		}
+		if (Field[FieldCols * y2 + (x2 + 1)] != 0 && Field[FieldCols * y2 + (x2 + 1)] != 9) {
+			Collide = 1;
+		}
+		if (Field[FieldCols * y3 + (x3 + 1)] != 0 && Field[FieldCols * y3 + (x3 + 1)] != 9) {
+			Collide = 1;
+		}
+		break;
+	}
+	return Collide;
 }
