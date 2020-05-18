@@ -23,17 +23,14 @@ void Game::getInput(){
 void Game::doLogic() {
 	static int controlledY = 1;
 	static int controlledX = 5;
-	if (initialized) {
+	if (initialized && Alive) {
 
-			getInput();
-
-		if (timer->TimeElapsed()) {
+		getInput();
 			if (!shape->inControl) {
-				shape->generateNew(getRandomNumber(1, 7));
+				Alive = shape->generateNew(getRandomNumber(1, 7));
 			}
-
 			switch (UserInput) {
-			case SDLK_a: 
+			case SDLK_a:
 				if (!shape->CollideSide(LEFT)) {
 					controlledX--;
 				}
@@ -48,10 +45,9 @@ void Game::doLogic() {
 			case -1:
 				UserInput = 0; break;
 			}
-			
 
-
-			if (true) {
+		if (timer->TimeElapsed()) {
+				controlledY++;
 				if (!shape->CollideBot()) {
 					shape->setPos(controlledX, controlledY);
 				}
@@ -61,13 +57,17 @@ void Game::doLogic() {
 					controlledY = 1;
 					controlledX = 5;
 				}
-				controlledY++;
-			}
-			UserInput = 0;
 
 
 		}
 		SDL_Delay(100);
+		UserInput = 0;
+	}
+	if (Alive == 0) {
+		for (int i = 0; i < FieldSize; i++) {
+			Field[i] = 0;
+		}
+		Alive = 1;
 	}
 }
 

@@ -9,7 +9,7 @@
 	S = 7;
 */
 
-void Shape::generateNew(int type) {
+bool Shape::generateNew(int type) {
 	inControl = 1;
 	this->type = type;
 	switch (type) {
@@ -21,8 +21,26 @@ void Shape::generateNew(int type) {
 	case 6: setAln(-1,0,0,1,1,1); break;
 	case 7: setAln(-1,1,0,1,1,0); break;
 	}
-	setPos(5, 1);
-	inControl = true;
+	this->x = 5;
+	this->y = 1;
+	this->x1 = x + Alnx1;
+	this->x2 = x + Alnx2;
+	this->x3 = x + Alnx3;
+	this->y1 = y + Alny1;
+	this->y2 = y + Alny2;
+	this->y3 = y + Alny3;
+	if (Field[FieldCols * y + x] != 0 || Field[FieldCols * y1 + x1] != 0 || Field[FieldCols * y2 + x2] != 0 || Field[FieldCols * y3 + x3] != 0)
+	{
+		return 0;
+	}
+	else {
+		Field[FieldCols * this->y + this->x] = 9;
+		Field[FieldCols * y1 + x1] = 9;
+		Field[FieldCols * y2 + x2] = 9;
+		Field[FieldCols * y3 + x3] = 9;
+		inControl = true;
+		return 1;
+	}
 }
 
 void Shape::rotate() {

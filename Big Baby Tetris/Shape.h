@@ -44,7 +44,7 @@ public:
 	int getY() {
 		return y;
 	}
-	void generateNew(int type);
+	bool generateNew(int type);
 	void setPos(int x, int y);
 	bool CollideBot();
 	bool CollideSide(Sides side);

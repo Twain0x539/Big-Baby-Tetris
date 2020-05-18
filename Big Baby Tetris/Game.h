@@ -12,6 +12,7 @@ private:
 	static const int FieldSize = FieldCols * FieldRows;
 	int Field[FieldSize];
 	int UserInput;
+	bool Alive = 1;
 	Shape* shape;
 	Timer* timer;
 
