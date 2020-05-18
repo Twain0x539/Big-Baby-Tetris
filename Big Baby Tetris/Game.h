@@ -13,6 +13,7 @@ private:
 	int Field[FieldSize];
 	int UserInput;
 	bool Alive = 1;
+	bool InputCaptured = 0;
 	Shape* shape;
 	Timer* timer;
 
@@ -30,7 +31,7 @@ public:
 		return instance;
 	}
 	void INITIALIZE(); // initialises everything, needs to run before doing anything with game
-	void getInput(); // gets keyboard input and saves in UserInput
+	int getInput(); // gets keyboard input and saves in UserInput
 	void doLogic(); // doing game logic using userInput value
 	void removeFullRows(); // removes filled rows
 
