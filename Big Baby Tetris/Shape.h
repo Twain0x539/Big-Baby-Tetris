@@ -17,7 +17,7 @@ enum Sides {
 
 class Shape
 {
-private:
+protected:
 	int FieldCols;
 	int FieldRows;
 	int* Field;
@@ -50,5 +50,30 @@ public:
 	bool CollideSide(Sides side);
 	void Fix();
 	void removeOldPos();
+
+	int gx() {
+		return x;
+	}
+	int gx1() {
+		return x1;
+	}
+	int gx2() {
+		return x2;
+	}
+	int gx3() {
+		return x3;
+	}
+	int gy() {
+		return y;
+	}
+	int gy1() {
+		return y1;
+	}
+	int gy2() {
+		return y2;
+	}
+	int gy3() {
+		return y3;
+	}
 };
 

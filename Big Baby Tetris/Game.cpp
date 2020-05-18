@@ -6,8 +6,6 @@
 #include <cstdlib>
 #include "Timer.h"
 extern enum Sides;
-
-
 int Game::getInput(){
 	SDL_Event event;
 	SDL_PollEvent(&event);
@@ -21,7 +19,6 @@ void Game::doLogic() {
 	static int controlledY = 1;
 	static int controlledX = 5;
 	if (initialized && Alive) {
-
 			UserInput = getInput();
 			if (!shape->inControl) {
 				Alive = shape->generateNew(getRandomNumber(1, 7));
@@ -43,29 +40,28 @@ void Game::doLogic() {
 				SkipDelay = 1;
 				break;
 			case SDLK_r:
+				shape->rotate();
 				break;
 			case SDLK_SPACE:
 				break;
 			case -1:
 				UserInput = 0; break;
 			}
-
-		if (timer->TimeElapsed() || SkipDelay) {
-			SkipDelay = 0;
+			if (timer->TimeElapsed() || SkipDelay) {
+				SkipDelay = 0;
 				controlledY++;
 				if (!shape->CollideBot()) {
 					shape->setPos(controlledX, controlledY);
 				}
 				else {
 					shape->Fix();
+					removeFullRows();
 					shape->inControl = 0;
 					controlledY = 1;
 					controlledX = 5;
 				}
-
-
-		}
-		UserInput = 0;
+			}
+			UserInput = 0;
 	}
 	if (Alive == 0) {
 		for (int i = 0; i < FieldSize; i++) {
@@ -81,7 +77,7 @@ void Game::INITIALIZE() {
 			Field[i] = 0;
 		}
 		if (!shape) {
-			shape = new Shape(FieldCols,FieldRows,Field);
+			shape = new Shape(FieldCols, FieldRows, Field);
 		}
 		if (!timer) {
 			timer = new Timer();
@@ -107,13 +103,23 @@ int Game::getRandomNumber(int min, int max) {
 }
 
 void Game::removeFullRows() {
-	bool FieldCleared = 0;
-	while (!FieldCleared) {
-
+	if (checkRow(shape->gy())) {
+		removeRow(shape->gy());
 	}
+	if (checkRow(shape->gy1())) {
+		removeRow(shape->gy1());
+	}
+	if (checkRow(shape->gy2())) {
+		removeRow(shape->gy2());
+	}
+	if (checkRow(shape->gy3())) {
+		removeRow(shape->gy3());
+	}
+
+	
 }
 
-Game::~Game() { 
+Game::~Game() {
 	SDL_DestroyWindow(window);
 	SDL_DestroyRenderer(renderer);
 }
@@ -122,7 +128,7 @@ void Game::LoadTextures() {
 	SDL_Surface* tmpSurface = IMG_Load("Assets/block0.png");
 	blocks[0] = SDL_CreateTextureFromSurface(renderer, tmpSurface);
 	SDL_FreeSurface(tmpSurface);
-	
+
 }
 
 void Game::render() {
@@ -134,10 +140,38 @@ void Game::render() {
 		for (int j = 0; j < FieldCols; j++) {
 			if (Field[FieldCols * i + j] != 0) {
 				dstRect.x = 64 * j;
-				dstRect.y = 64 * (i-2);
+				dstRect.y = 64 * (i - 2);
 				SDL_RenderCopy(renderer, blocks[0], NULL, &dstRect);
 			}
 		}
 	}
 	SDL_RenderPresent(renderer);
+}
+
+void Game::removeRow(int RowNumber) {
+	for (int k = 0; k < FieldCols; k++) {
+		Field[FieldCols * RowNumber + k] = 0;
+	}
+	moveDown(RowNumber);
+}
+
+bool Game::checkRow(int RowNumber) {
+	bool Full = 1;
+	for (int k = 0; k < FieldCols; k++) {
+		if (Field[FieldCols * RowNumber + k] == 0 || Field[FieldCols * RowNumber + k] == 9){
+		Full = 0;
+}
+	}
+	return Full;
+}
+
+void Game::moveDown(int TillRow) {
+	for (int i = TillRow; i >3 ; i--) {
+		for (int j = 0; j < FieldCols; j++) {
+			Field[FieldCols * i + j] = Field[FieldCols * (i - 1) + j];
+		}
+	}
+	for (int j = 0; j < FieldCols; j++) {
+		Field[FieldCols * 2 + j] = 0;
+	}
 }

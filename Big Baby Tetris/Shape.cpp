@@ -45,6 +45,20 @@ bool Shape::generateNew(int type) {
 
 void Shape::rotate() {
 
+/*
+ Вращение вокруг центра
+ X = -y
+ Y = x
+ */
+	int NewX1Aln = Alny1 * -1;
+	int NewY1Aln = Alnx1;
+	int NewX2Aln = Alny2 * -1;
+	int NewY2Aln = Alnx2;
+	int NewX3Aln = Alny3 * -1;
+	int NewY3Aln = Alnx3;
+	setAln(NewX1Aln, NewY1Aln, NewX2Aln, NewY2Aln, NewX3Aln, NewY3Aln);
+	setPos(x, y);
+
 }
 
 void Shape::setAln(int x1, int y1, int x2, int y2, int x3, int y3) {
@@ -119,15 +133,6 @@ void Shape::Fix() {
 	Field[FieldCols * y1 + x1] = type;
 	Field[FieldCols * y2 + x2] = type;
 	Field[FieldCols * y3 + x3] = type;
-
-	x = 0;
-	y = 0;
-	x1 = 0;
-	x2 = 0;
-	x3 = 0;
-	y1 = 0;
-	y2 = 0;
-	y3 = 0;
 }
 
 bool Shape::CollideSide(Sides side) {

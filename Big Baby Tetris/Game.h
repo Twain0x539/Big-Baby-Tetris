@@ -16,6 +16,9 @@ private:
 	bool SkipDelay = 0;
 	Shape* shape;
 	Timer* timer;
+	bool checkRow(int RowNumber);
+	void removeRow(int RowNumber);
+	void moveDown(int TillRow);
 
 //*********************_____________SDL_SECTION_____________*********************//
 	SDL_Window* window;
