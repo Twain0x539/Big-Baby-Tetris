@@ -16,8 +16,8 @@ bool Shape::generateNew(int type) {
 	case 1: setAln(1, 1, 1, 0, 0, 1); break;
 	case 2: setAln(0, -1, 0, 1, 0, 2);  break;
 	case 3: setAln(1, 0, -1, 0, 0, 1); break;
-	case 4: setAln(-1, 0, 0, -1, 0, -2); break;
-	case 5: setAln(1, 0, 0, -1, 0, -2); break;
+	case 4: setAln(-1, 1, 0, 1, 0, -1); break;
+	case 5: setAln(1, 1, 0, 1, 0, -1); break;
 	case 6: setAln(-1,0,0,1,1,1); break;
 	case 7: setAln(-1,1,0,1,1,0); break;
 	}
@@ -50,14 +50,31 @@ void Shape::rotate() {
  X = -y
  Y = x
  */
+	if (x == 0 || x == FieldCols - 1) {
+		return;
+	}
 	int NewX1Aln = Alny1 * -1;
 	int NewY1Aln = Alnx1;
 	int NewX2Aln = Alny2 * -1;
 	int NewY2Aln = Alnx2;
 	int NewX3Aln = Alny3 * -1;
 	int NewY3Aln = Alnx3;
-	setAln(NewX1Aln, NewY1Aln, NewX2Aln, NewY2Aln, NewX3Aln, NewY3Aln);
-	setPos(x, y);
+	int NewX1 = x + NewX1Aln;
+	int NewY1 = y + NewY1Aln;
+	int NewX2 = x + NewX2Aln;
+	int NewY2 = y + NewY2Aln;
+	int NewX3 = x + NewX3Aln;
+	int NewY3 = y + NewY3Aln;
+	if (NewX1 >= FieldCols || NewX2 >= FieldCols || NewX3 >= FieldCols) {
+		return;
+	}	
+	if (NewX1 == -1 || NewX2 == -1 || NewX3 == -1) {
+		return;
+	}
+	if ((Field[FieldCols * NewY1 + NewX1] == 0 || Field[FieldCols * NewY1 + NewX1] == 9) && (Field[FieldCols * NewY2 + NewX2] == 0 || Field[FieldCols * NewY2 + NewX2] == 9) && (Field[FieldCols * NewY3 + NewX3] == 0|| Field[FieldCols * NewY3 + NewX3] == 9)) {
+		setAln(NewX1Aln, NewY1Aln, NewX2Aln, NewY2Aln, NewX3Aln, NewY3Aln);
+		setPos(x, y);
+	}
 
 }
 

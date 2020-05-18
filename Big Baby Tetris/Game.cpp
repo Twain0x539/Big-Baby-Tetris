@@ -16,37 +16,12 @@ int Game::getInput(){
 	}
 
 void Game::doLogic() {
-	static int controlledY = 1;
-	static int controlledX = 5;
 	if (initialized && Alive) {
 			UserInput = getInput();
 			if (!shape->inControl) {
 				Alive = shape->generateNew(getRandomNumber(1, 7));
 			}
-			switch (UserInput) {
-			case SDLK_a:
-				if (!shape->CollideSide(LEFT)) {
-					controlledX--;
-				}
-				shape->setPos(controlledX, controlledY);
-				break;
-			case SDLK_d:
-				if (!shape->CollideSide(RIGHT)) {
-					controlledX++;
-				}
-				shape->setPos(controlledX, controlledY);
-				break;
-			case SDLK_s:
-				SkipDelay = 1;
-				break;
-			case SDLK_r:
-				shape->rotate();
-				break;
-			case SDLK_SPACE:
-				break;
-			case -1:
-				UserInput = 0; break;
-			}
+			applyInput();
 			if (timer->TimeElapsed() || SkipDelay) {
 				SkipDelay = 0;
 				controlledY++;
@@ -103,17 +78,10 @@ int Game::getRandomNumber(int min, int max) {
 }
 
 void Game::removeFullRows() {
-	if (checkRow(shape->gy())) {
-		removeRow(shape->gy());
-	}
-	if (checkRow(shape->gy1())) {
-		removeRow(shape->gy1());
-	}
-	if (checkRow(shape->gy2())) {
-		removeRow(shape->gy2());
-	}
-	if (checkRow(shape->gy3())) {
-		removeRow(shape->gy3());
+	for (int i = 2; i < FieldRows; i++) {
+		if (checkRow(i)) {
+			removeRow(i);
+		}
 	}
 
 	
@@ -173,5 +141,36 @@ void Game::moveDown(int TillRow) {
 	}
 	for (int j = 0; j < FieldCols; j++) {
 		Field[FieldCols * 2 + j] = 0;
+	}
+}
+
+void Game::applyInput() {
+	switch (UserInput) {
+	case SDLK_a:
+		if (!shape->CollideSide(LEFT)) {
+			controlledX--;
+		}
+		shape->setPos(controlledX, controlledY);
+		break;
+	case SDLK_d:
+		if (!shape->CollideSide(RIGHT)) {
+			controlledX++;
+		}
+		shape->setPos(controlledX, controlledY);
+		break;
+	case SDLK_s:
+		SkipDelay = 1;
+		break;
+	case SDLK_r:
+		shape->rotate();
+		break;
+	case SDLK_SPACE:
+		while (!shape->CollideBot()) {
+			controlledY++;
+			shape->setPos(controlledX, controlledY);
+		}
+		break;
+	case -1:
+		UserInput = 0; break;
 	}
 }

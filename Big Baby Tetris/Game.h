@@ -16,6 +16,8 @@ private:
 	bool SkipDelay = 0;
 	Shape* shape;
 	Timer* timer;
+	int controlledX = 5;
+	int controlledY = 1;
 	bool checkRow(int RowNumber);
 	void removeRow(int RowNumber);
 	void moveDown(int TillRow);
@@ -35,6 +37,7 @@ public:
 	}
 	void INITIALIZE(); // initialises everything, needs to run before doing anything with game
 	int getInput(); // gets keyboard input and saves in UserInput
+	void applyInput();
 	void doLogic(); // doing game logic using userInput value
 	void removeFullRows(); // removes filled rows
 
