@@ -26,6 +26,7 @@ private:
 	SDL_Window* window;
 	SDL_Renderer* renderer;
 	SDL_Texture* blocks[8];
+	SDL_Texture* background;
 
 	void LoadTextures();
 //*******************************************************************************//

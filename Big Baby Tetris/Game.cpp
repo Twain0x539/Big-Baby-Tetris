@@ -73,7 +73,7 @@ void Game::INITIALIZE() {
 
 int Game::getRandomNumber(int min, int max) {
 	std::srand(time(NULL));
-	int randomNumber = (rand() % (max - min)) + min;
+	int randomNumber = (rand() % (max - min + 1)) + min;
 	return randomNumber;
 }
 
@@ -90,26 +90,53 @@ void Game::removeFullRows() {
 Game::~Game() {
 	SDL_DestroyWindow(window);
 	SDL_DestroyRenderer(renderer);
+	SDL_DestroyTexture(background);
+	for (int i = 0; i < 8; i++) {
+		SDL_DestroyTexture(blocks[i]);
+	}
 }
 
 void Game::LoadTextures() {
 	SDL_Surface* tmpSurface = IMG_Load("Assets/block0.png");
 	blocks[0] = SDL_CreateTextureFromSurface(renderer, tmpSurface);
+	 tmpSurface = IMG_Load("Assets/block1.png");
+	blocks[1] = SDL_CreateTextureFromSurface(renderer, tmpSurface);
+	 tmpSurface = IMG_Load("Assets/block2.png");
+	blocks[2] = SDL_CreateTextureFromSurface(renderer, tmpSurface);
+	 tmpSurface = IMG_Load("Assets/block3.png");
+	blocks[3] = SDL_CreateTextureFromSurface(renderer, tmpSurface);
+	 tmpSurface = IMG_Load("Assets/block4.png");
+	blocks[4] = SDL_CreateTextureFromSurface(renderer, tmpSurface);
+	 tmpSurface = IMG_Load("Assets/block5.png");
+	blocks[5] = SDL_CreateTextureFromSurface(renderer, tmpSurface);
+	 tmpSurface = IMG_Load("Assets/block6.png");
+	blocks[6] = SDL_CreateTextureFromSurface(renderer, tmpSurface); 
+	 tmpSurface = IMG_Load("Assets/block7.png");
+	blocks[7] = SDL_CreateTextureFromSurface(renderer, tmpSurface);
+	tmpSurface = IMG_Load("Assets/background.png");
+	background = SDL_CreateTextureFromSurface(renderer, tmpSurface);
 	SDL_FreeSurface(tmpSurface);
+	
 
 }
 
 void Game::render() {
 	SDL_RenderClear(renderer);
+	SDL_RenderCopy(renderer, background, NULL, NULL);
 	SDL_Rect dstRect;
-	dstRect.w = 64;
-	dstRect.h = 64;
+	dstRect.w = 63;
+	dstRect.h = 63;
 	for (int i = 2; i < FieldRows; i++) {
 		for (int j = 0; j < FieldCols; j++) {
-			if (Field[FieldCols * i + j] != 0) {
-				dstRect.x = 64 * j;
-				dstRect.y = 64 * (i - 2);
-				SDL_RenderCopy(renderer, blocks[0], NULL, &dstRect);
+			dstRect.x = 64 * j;
+			dstRect.y = 64 * (i - 2);
+			if (Field[FieldCols * i + j] == 0) {
+			}
+			else if (Field[FieldCols * i + j] == 9) {
+				SDL_RenderCopy(renderer, blocks[shape->type], NULL, &dstRect);
+			}
+			else {
+				SDL_RenderCopy(renderer, blocks[Field[FieldCols * i + j]], NULL, &dstRect);
 			}
 		}
 	}
