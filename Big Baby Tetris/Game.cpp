@@ -5,6 +5,7 @@
 #include <string>
 #include <cstdlib>
 #include "Timer.h"
+#include <SDL_mixer.h>
 extern enum Sides;
 int Game::getInput(){
 	SDL_Event event;
@@ -15,8 +16,37 @@ int Game::getInput(){
 	return -1;
 	}
 
+void Game::showMenu() {
+	SDL_Rect dstRect;
+	dstRect.h = 300;
+	dstRect.w = 400;
+	dstRect.x = 125;
+	dstRect.y = 300;
+	SDL_RenderCopy(renderer, menu, NULL, &dstRect);
+	SDL_RenderPresent(renderer);
+	while (Menu) {
+		UserInput = getInput();
+		switch (UserInput) {
+		case SDLK_RETURN:	Menu = 0; break;
+		case SDLK_q: Menu = 0;  isNotOver = 0; break;
+		case SDLK_p:
+			if (MusicOn) {
+				MusicOn = 0;
+			}
+			else {
+				MusicOn = 1;
+			}
+			switchMusic(); break;
+		}
+	}
+}
+
 void Game::doLogic() {
+	if (Menu) {
+		showMenu();
+	}
 	if (initialized && Alive) {
+			switchMusic();
 			UserInput = getInput();
 			if (!shape->inControl) {
 				Alive = shape->generateNew(getRandomNumber(1, 7));
@@ -62,9 +92,19 @@ void Game::INITIALIZE() {
 		/*--------------------------SDL-----------------------*/
 
 		SDL_Init(SDL_INIT_EVERYTHING);
+		SDL_Init(SDL_INIT_AUDIO);
+		int iniFlags = Mix_Init(MIX_INIT_FLAC | MIX_INIT_MOD | MIX_INIT_MP3 | MIX_INIT_OGG);
+		Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096);
+		bgm = Mix_LoadMUS("Assets/megaBlocks.ogg");
+		if (bgm == NULL) {
+			printf("Unable to load Ogg file: %s\n", Mix_GetError());
+		}
+		switchMusic();
 		window = SDL_CreateWindow("Big Baby Tetris", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 960, SDL_WINDOW_SHOWN);
 		renderer = SDL_CreateRenderer(window, -1, 0);
 		LoadTextures();
+		SDL_RenderCopy(renderer, background, NULL, NULL);
+		SDL_RenderPresent(renderer);
 		/*--------------------------SDL-----------------------*/
 	}
 	initialized = 1;
@@ -88,12 +128,16 @@ void Game::removeFullRows() {
 }
 
 Game::~Game() {
+	Mix_FreeMusic(bgm);
+	Mix_CloseAudio();
 	SDL_DestroyWindow(window);
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyTexture(background);
 	for (int i = 0; i < 8; i++) {
 		SDL_DestroyTexture(blocks[i]);
 	}
+	SDL_DestroyTexture(menu);
+	SDL_DestroyTexture(background);
 }
 
 void Game::LoadTextures() {
@@ -115,6 +159,8 @@ void Game::LoadTextures() {
 	blocks[7] = SDL_CreateTextureFromSurface(renderer, tmpSurface);
 	tmpSurface = IMG_Load("Assets/background.png");
 	background = SDL_CreateTextureFromSurface(renderer, tmpSurface);
+	tmpSurface = IMG_Load("Assets/menu.png");
+	menu = SDL_CreateTextureFromSurface(renderer,tmpSurface);
 	SDL_FreeSurface(tmpSurface);
 	
 
@@ -197,7 +243,24 @@ void Game::applyInput() {
 			shape->setPos(controlledX, controlledY);
 		}
 		break;
+	case SDLK_ESCAPE: Menu = 1; break;
+	case SDLK_p:
+		if (MusicOn) {
+			MusicOn = 0;
+		}
+		else {
+			MusicOn = 1;
+		}
 	case -1:
 		UserInput = 0; break;
+	}
+}
+
+void Game::switchMusic() {
+	if (!Mix_PlayingMusic() && MusicOn) {
+		Mix_PlayMusic(bgm, -1);
+	}
+	else if (!MusicOn) {
+		Mix_HaltMusic();
 	}
 }

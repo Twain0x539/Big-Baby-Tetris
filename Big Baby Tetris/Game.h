@@ -3,6 +3,7 @@
 #include "SDL.h"
 #include "SDL_image.h"
 #include "Timer.h"
+#include "SDL_mixer.h"
 class Game
 {
 private:
@@ -14,6 +15,8 @@ private:
 	int UserInput;
 	bool Alive = 1;
 	bool SkipDelay = 0;
+	bool Menu = 1;
+	bool MusicOn = 1;
 	Shape* shape;
 	Timer* timer;
 	int controlledX = 5;
@@ -21,12 +24,16 @@ private:
 	bool checkRow(int RowNumber);
 	void removeRow(int RowNumber);
 	void moveDown(int TillRow);
+	void showMenu();
 
 //*********************_____________SDL_SECTION_____________*********************//
 	SDL_Window* window;
 	SDL_Renderer* renderer;
 	SDL_Texture* blocks[8];
 	SDL_Texture* background;
+	SDL_Texture* menu;
+	Mix_Music* bgm;
+	void switchMusic();
 
 	void LoadTextures();
 //*******************************************************************************//
